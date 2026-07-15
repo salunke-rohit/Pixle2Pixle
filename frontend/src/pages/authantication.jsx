@@ -26,7 +26,16 @@ export default function Authantication() {
     const [formState , setFormState] = React.useState(0);
     const [open , setOpen] = React.useState(false);
 
-    
+    let handleAuth = async () =>{
+        try{
+            if(formState==0){
+
+            }
+            if(formState==1){
+                
+            }
+        }
+    }
 
   return (
     <ThemeProvider theme={defaultTheme}>

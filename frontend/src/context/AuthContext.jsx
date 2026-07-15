@@ -13,6 +13,9 @@ export const AuthContext = createContext ({});
 
         const [userData , setUserData ] = useState(authContext)
         
+        
+        const router = useNavigate();
+        
         const handleRegister = async ( name , username , password )=>{
             try{
                 let request = await client.post("/register" , {
@@ -25,6 +28,19 @@ export const AuthContext = createContext ({});
                 }
             }catch(err){
                 throw err ;
+            }
+        }
+        const handleLogin = async ( username , password ) => {
+            try{
+                let request  = await client.post("/login" , {
+                    username:username,
+                    password:password
+                })
+                if ( request.status==httpStatus.OK){
+                    localStorage.setItem("token",request.data.token);
+                }
+            }catch(err){
+
             }
         }
 
