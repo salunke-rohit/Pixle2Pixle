@@ -12,8 +12,8 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-
-
+import Snackbar from '@mui/material/Snackbar';
+import { AuthContext } from "../context/AuthContext";
 const defaultTheme = createTheme();
 
 export default function Authantication() {
@@ -26,14 +26,27 @@ export default function Authantication() {
     const [formState , setFormState] = React.useState(0);
     const [open , setOpen] = React.useState(false);
 
+    const {handleRegister , handleLogin} = React.useContext(AuthContext)
+
     let handleAuth = async () =>{
         try{
-            if(formState==0){
+            if(formState==0){ // login
+              let result = await handleLogin ( username , password )
 
             }
-            if(formState==1){
-                
+            if(formState==1){ // signup
+                let result = await handleRegister (name, username, password);
+                console.log(result);
+                setUsername("");
+                setMessage(result);
+                setOpen(true);
+                setError("");
+                setFormState(0);
+                setPassword("");
             }
+        } catch (err) {
+          let message = (err.response.data.message);
+          setError(message);
         }
     }
 
@@ -80,6 +93,7 @@ backgroundImage:
                 id="username"
                 label="Fullname"
                 name="username"
+                value={name}
                 autoFocus
                 onChange={(e)=>{setName(e.target.value)}}
 
@@ -93,7 +107,7 @@ backgroundImage:
                 id="username"
                 label="Username"
                 name="username"
-                autoComplete
+                value={username}
                 autoFocus
                 onChange={(e)=>{setUsername(e.target.value)}}
 
@@ -107,25 +121,31 @@ backgroundImage:
                     label="Password"
                     type="password"
                     id="password"
+                    value={password}
                     onChange={(e)=>{setPassword(e.target.value)}}
 
                 />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              />
+              <p style={{color:"red"}}>{error}</p>
               <Button
                 type="button"
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
+                fullWidth
+                variant="contained"
+                onClick={handleAuth}
               >
-                Sign In
-              </Button>
+
+              {formState==0 ? "Login in" : "Register"}  </Button>
             </Box>
           </Box>
         </Grid>
       </Grid>
+      <Snackbar 
+      open={open}
+      autoHideDuration={4000}
+      message={message}
+      />
     </ThemeProvider>
   );
 }
