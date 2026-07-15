@@ -19,7 +19,7 @@ export default function LandingPage() {
           with your loved once's</h1> 
          <p>Connecting People, Pixel by Pixel.</p>
          <div role="button">
-          <Link to={"/home"}>Get Started</Link>
+          <Link to={"/auth"}>Get Started</Link>
          </div>
          </div>
          <div className="div2"><img src="/mobile.png" alt="mobile" /></div>
